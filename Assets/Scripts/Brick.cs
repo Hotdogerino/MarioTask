@@ -13,6 +13,7 @@ public class Brick : MonoBehaviour
     ScoreManager sm;
     public float timeLeft;
 
+
     public void DestroyBricks()
     {
         Vector3 pos = transform.position;
@@ -20,8 +21,8 @@ public class Brick : MonoBehaviour
         GetComponentInParent<SpriteRenderer>().enabled = false;
         GetComponent<BoxCollider2D>().enabled = false;
         Destroy(this.gameObject,0.6f);
-        Instantiate(brickBreakParticles, pos, Quaternion.Euler(-90,0,0));
-        Destroy(brickBreakParticles, 3);
+        GameObject particles = Instantiate(brickBreakParticles, pos, Quaternion.Euler(-90,0,0));
+        Destroy(particles, 3);
         
 
     }
@@ -31,6 +32,7 @@ public class Brick : MonoBehaviour
 
     void Awake()
     {
+
         sm = FindObjectOfType<ScoreManager>();
         source = GetComponent<AudioSource>();
         anim = GetComponentInParent<Animator>();
