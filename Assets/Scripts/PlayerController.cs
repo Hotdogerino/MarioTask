@@ -67,6 +67,11 @@ public class PlayerController : MonoBehaviour
 
     private bool takeAwayControll = false; //taking away control so Mario would not stick to the side
 
+    private ScoreManager scoreManager;
+
+    [SerializeField]
+    private GameObject ScoreManagerGameobject;
+
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
@@ -90,6 +95,7 @@ public class PlayerController : MonoBehaviour
         playerCapsuleCollider2D = GetComponent<CapsuleCollider2D>();
         playerAnimator = GetComponent<Animator>();
         playerSpriteRenderer = GetComponent<SpriteRenderer>();
+        scoreManager = ScoreManagerGameobject.GetComponent<ScoreManager>();
     }
 
 
@@ -213,7 +219,7 @@ public class PlayerController : MonoBehaviour
     }
     public void Die()
     {
-        if (poweredUp && !isDead && !isInvulnerable)
+        if (poweredUp && !isDead && !isInvulnerable && scoreManager.GetCurrentTime() != 0)
         {
             playerAnimator.runtimeAnimatorController = smallMarioAnimatorController as RuntimeAnimatorController;
             playerCapsuleCollider2D.offset = new Vector2(0, 0f);
@@ -222,14 +228,20 @@ public class PlayerController : MonoBehaviour
             isInvulnerable = true;
             invulnerabilityTimer = invulnerabilityTime;
         }
-        else if (!isInvulnerable)
+        else if (!isInvulnerable && scoreManager.GetCurrentTime() != 0)
         {
             playerRigidbody2D.velocity = new Vector2(0, jumpVelocity);
             playerAnimator.SetBool("dead", true);
             playerCapsuleCollider2D.enabled = false;
             isDead = true;
         }
-
+        else if (poweredUp && !isDead)
+        {
+            playerRigidbody2D.velocity = new Vector2(0, jumpVelocity);
+            playerAnimator.SetBool("dead", true);
+            playerCapsuleCollider2D.enabled = false;
+            isDead = true;
+        }
     }
 
     void FlipSprite()

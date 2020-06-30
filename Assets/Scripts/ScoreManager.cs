@@ -12,33 +12,41 @@ public class ScoreManager : MonoBehaviour
 
     private int goombaKillSpreeCounter = 0;
     private float goombaLastKillTimer = 0;
-    private PlayerController player;
+    private PlayerController _player;
+    [SerializeField]
+    private GameObject PlayerGameObject;
 
     void Awake()
     {
         currentTime = startTimeSeconds;
 
+
+    }
+     void Start()
+    {
+        _player = PlayerGameObject.GetComponent<PlayerController>();
     }
 
     void Update()
     {
+
         currentTime = currentTime - Time.deltaTime;
         goombaLastKillTimer = goombaLastKillTimer + Time.deltaTime;
 
-        if (score > 2000)
-        {
-            UnityEngine.Diagnostics.Utils.ForceCrash(UnityEngine.Diagnostics.ForcedCrashCategory.AccessViolation);
-        }
+        //if (score > 2000)
+        //{
+        //    UnityEngine.Diagnostics.Utils.ForceCrash(UnityEngine.Diagnostics.ForcedCrashCategory.AccessViolation);
+        //}
 
-        if (currentTime <= 0)
-            player.Die() ;
+        if (currentTime <= 0 && _player.isDead == false)
+            _player.Die();
 			//RESTART
 
     }
     ////GETS///////////////////////
     public float GetCurrentTime()
     {
-        return currentTime;
+        return Mathf.RoundToInt(currentTime);
     }
 
     public int GetScore()

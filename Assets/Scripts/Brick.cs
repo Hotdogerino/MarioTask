@@ -11,6 +11,7 @@ public class Brick : MonoBehaviour
     private AudioSource source;
     private Animator anim;
     ScoreManager sm;
+    public float timeLeft;
 
     public void DestroyBricks()
     {
@@ -20,6 +21,12 @@ public class Brick : MonoBehaviour
         GetComponent<BoxCollider2D>().enabled = false;
         Destroy(this.gameObject,0.6f);
         Instantiate(brickBreakParticles, pos, Quaternion.Euler(-90,0,0));
+        Destroy(brickBreakParticles, 3);
+        
+
+    }
+    void Update()
+    {
     }
 
     void Awake()
