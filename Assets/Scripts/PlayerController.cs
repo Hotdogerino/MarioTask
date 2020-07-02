@@ -72,6 +72,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject ScoreManagerGameobject;
 
+
+
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
@@ -177,6 +179,8 @@ public class PlayerController : MonoBehaviour
         if (isInvulnerable)
         {
             invulnerabilityTimer -= Time.deltaTime;
+            Physics2D.IgnoreLayerCollision(12, 17, true);
+           // gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
 
             float newAlpha = 1f;
 
@@ -190,6 +194,9 @@ public class PlayerController : MonoBehaviour
             {
                 isInvulnerable = false;
                 newAlpha = 1f;
+                Physics2D.IgnoreLayerCollision(12, 17, false);
+                //gameObject.GetComponent<CapsuleCollider2D>().enabled = true;
+
             }
 
 
